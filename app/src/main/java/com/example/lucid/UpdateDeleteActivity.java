@@ -47,7 +47,7 @@ public class UpdateDeleteActivity extends AppCompatActivity {
         isLucidInput.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isLucid = isChecked;
+                // TODO Change the background of the activity based on isChecked (if the dream is lucid or not)
             }
         });
 
@@ -58,6 +58,7 @@ public class UpdateDeleteActivity extends AppCompatActivity {
                 title = titleInput.getText().toString().trim();
                 description = descriptionInput.getText().toString().trim();
                 mood = moodInput.getText().toString().trim();
+                isLucid = isLucidInput.isChecked();
                 repository.updateDream(Integer.parseInt(id), title, description, mood, isLucid);
             }
         });

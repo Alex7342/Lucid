@@ -18,7 +18,6 @@ public class AddActivity extends AppCompatActivity {
     EditText moodInput;
     MaterialSwitch isLucidInput;
     Button addButton;
-    boolean isLucid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +29,11 @@ public class AddActivity extends AppCompatActivity {
         moodInput = findViewById(R.id.moodInput);
         isLucidInput = findViewById(R.id.isLucidInput);
         addButton = findViewById(R.id.addButton);
-        isLucid = false;
 
         isLucidInput.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isLucid = isChecked;
+                // TODO Change the background of the activity based on isChecked (if the dream is lucid or not)
             }
         });
 
@@ -47,12 +45,11 @@ public class AddActivity extends AppCompatActivity {
                 String title = titleInput.getText().toString().trim();
                 String description = descriptionInput.getText().toString().trim();
                 String mood = moodInput.getText().toString().trim();
+                boolean isLucid = isLucidInput.isChecked();
 
                 repository.addDream(title, description, mood, new Date(), isLucid);
 
-                titleInput.getText().clear();
-                descriptionInput.getText().clear();
-                moodInput.getText().clear();
+                finish();
             }
         });
     }
