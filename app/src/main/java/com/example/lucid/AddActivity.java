@@ -52,6 +52,7 @@ public class AddActivity extends AppCompatActivity {
 
                 titleInput.getText().clear();
                 descriptionInput.getText().clear();
+                moodInput.getText().clear();
             }
         });
     }

@@ -16,7 +16,7 @@ import com.google.android.material.materialswitch.MaterialSwitch;
 
 import java.util.Date;
 
-public class UpdateActivity extends AppCompatActivity {
+public class UpdateDeleteActivity extends AppCompatActivity {
     EditText titleInput, descriptionInput, moodInput;
     MaterialSwitch isLucidInput;
     Button updateButton, deleteButton;
@@ -27,7 +27,7 @@ public class UpdateActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update);
+        setContentView(R.layout.activity_edit_delete);
 
         titleInput = findViewById(R.id.titleUpdateInput);
         descriptionInput = findViewById(R.id.descriptionUpdateInput);
@@ -54,7 +54,7 @@ public class UpdateActivity extends AppCompatActivity {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Repository repository = new Repository(UpdateActivity.this);
+                Repository repository = new Repository(UpdateDeleteActivity.this);
                 title = titleInput.getText().toString().trim();
                 description = descriptionInput.getText().toString().trim();
                 mood = moodInput.getText().toString().trim();
@@ -115,7 +115,7 @@ public class UpdateActivity extends AppCompatActivity {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Repository repository = new Repository(UpdateActivity.this);
+                Repository repository = new Repository(UpdateDeleteActivity.this);
                 repository.deleteDream(Integer.parseInt(id));
                 finish();
             }
