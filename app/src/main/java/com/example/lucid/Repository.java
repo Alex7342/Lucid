@@ -6,6 +6,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Repository {
@@ -20,9 +21,9 @@ public class Repository {
         return dreamList;
     }
 
-    public void addDream(String title, String description) {
+    public void addDream(String title, String description, String mood, Date date, boolean isLucid) {
         try {
-            dreamList.add(new Dream(title, description));
+            dreamList.add(new Dream(title, description, mood, date, isLucid));
             Toast.makeText(context, "Dream added successfully!", Toast.LENGTH_SHORT).show();
         }
         catch(Exception exception) {
@@ -32,7 +33,8 @@ public class Repository {
 
     public void updateDream(int id, String newTitle, String newDescription) {
         try {
-            dreamList.set(id, new Dream(newTitle, newDescription));
+            Dream currentDream = dreamList.get(id);
+            dreamList.set(id, new Dream(newTitle, newDescription, currentDream.getMood(), currentDream.getDate(), currentDream.isLucid()));
             Toast.makeText(context, "Dream updated successfully!", Toast.LENGTH_SHORT).show();
         }
         catch(Exception exception) {
