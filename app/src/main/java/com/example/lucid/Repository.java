@@ -31,10 +31,10 @@ public class Repository {
         }
     }
 
-    public void updateDream(int id, String newTitle, String newDescription) {
+    public void updateDream(int id, String newTitle, String newDescription, String newMood, boolean newIsLucid) {
         try {
             Dream currentDream = dreamList.get(id);
-            dreamList.set(id, new Dream(newTitle, newDescription, currentDream.getMood(), currentDream.getDate(), currentDream.isLucid()));
+            dreamList.set(id, new Dream(newTitle, newDescription, newMood, currentDream.getDate(), newIsLucid));
             Toast.makeText(context, "Dream updated successfully!", Toast.LENGTH_SHORT).show();
         }
         catch(Exception exception) {

@@ -47,6 +47,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                 intent.putExtra("id", String.valueOf(position));
                 intent.putExtra("title", String.valueOf(dreams.get(position).getTitle()));
                 intent.putExtra("description", String.valueOf(dreams.get(position).getDescription()));
+                intent.putExtra("mood", String.valueOf(dreams.get(position).getMood()));
+                intent.putExtra("date", dreams.get(position).getDate());
+                intent.putExtra("isLucid", dreams.get(position).isLucid());
                 activity.startActivityForResult(intent, 1);
             }
         });

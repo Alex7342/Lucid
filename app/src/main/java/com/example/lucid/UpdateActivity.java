@@ -7,14 +7,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.material.materialswitch.MaterialSwitch;
+
+import java.util.Date;
+
 public class UpdateActivity extends AppCompatActivity {
-    EditText titleInput, descriptionInput;
+    EditText titleInput, descriptionInput, moodInput;
+    MaterialSwitch isLucidInput;
     Button updateButton, deleteButton;
-    String id, title, description;
+    String id, title, description, mood;
+    Date date;
+    boolean isLucid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +31,8 @@ public class UpdateActivity extends AppCompatActivity {
 
         titleInput = findViewById(R.id.titleUpdateInput);
         descriptionInput = findViewById(R.id.descriptionUpdateInput);
+        moodInput = findViewById(R.id.moodUpdateInput);
+        isLucidInput = findViewById(R.id.isLucidUpdateInput);
         updateButton = findViewById(R.id.updateButton);
         deleteButton = findViewById(R.id.deleteButton);
 
@@ -34,13 +44,21 @@ public class UpdateActivity extends AppCompatActivity {
             actionBar.setTitle(title);
         }
 
+        isLucidInput.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isLucid = isChecked;
+            }
+        });
+
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Repository repository = new Repository(UpdateActivity.this);
                 title = titleInput.getText().toString().trim();
                 description = descriptionInput.getText().toString().trim();
-                repository.updateDream(Integer.parseInt(id), title, description);
+                mood = moodInput.getText().toString().trim();
+                repository.updateDream(Integer.parseInt(id), title, description, mood, isLucid);
             }
         });
 
@@ -70,9 +88,23 @@ public class UpdateActivity extends AppCompatActivity {
             description = getIntent().getStringExtra("description");
         }
 
+        if (getIntent().hasExtra("date")) {
+            date = (Date) getIntent().getSerializableExtra("date");
+        }
+
+        if (getIntent().hasExtra("mood")) {
+            mood = getIntent().getStringExtra("mood");
+        }
+
+        if (getIntent().hasExtra("isLucid")) {
+            isLucid = getIntent().getBooleanExtra("isLucid", false);
+        }
+
         // Setting intent data
         titleInput.setText(title);
         descriptionInput.setText(description);
+        moodInput.setText(mood);
+        isLucidInput.setChecked(isLucid);
     }
 
     private void confirmDialog() {

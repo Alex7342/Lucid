@@ -14,7 +14,8 @@
         android:layout_marginTop="150dp"
         android:ems="10"
         android:hint="Dream Title"
-        android:inputType="text"
+        android:inputType="textCapSentences"
+        android:maxLength="50"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,10 +27,36 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Dream Description"
-        android:inputType="text"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLines="5"
+        android:maxLength="2000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleUpdateInput" />
+
+    <EditText
+        android:id="@+id/moodUpdateInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Mood"
+        android:inputType="textCapSentences"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionUpdateInput" />
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/isLucidUpdateInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:text="Lucid"
+        android:textSize="18dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/moodUpdateInput" />
 
     <Button
         android:id="@+id/updateButton"
@@ -41,7 +68,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/descriptionUpdateInput" />
+        app:layout_constraintTop_toBottomOf="@+id/isLucidUpdateInput" />
 
     <Button
         android:id="@+id/deleteButton"
