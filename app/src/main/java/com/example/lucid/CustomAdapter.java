@@ -6,14 +6,12 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
@@ -43,10 +41,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.rowLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, UpdateActivity.class);
+                Intent intent = new Intent(context, UpdateDeleteActivity.class);
                 intent.putExtra("id", String.valueOf(position));
                 intent.putExtra("title", String.valueOf(dreams.get(position).getTitle()));
                 intent.putExtra("description", String.valueOf(dreams.get(position).getDescription()));
+                intent.putExtra("mood", String.valueOf(dreams.get(position).getMood()));
+                intent.putExtra("date", dreams.get(position).getDate());
+                intent.putExtra("isLucid", dreams.get(position).isLucid());
                 activity.startActivityForResult(intent, 1);
             }
         });
