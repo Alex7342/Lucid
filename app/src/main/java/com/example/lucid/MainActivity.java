@@ -13,18 +13,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class MainActivity extends AppCompatActivity {
     Repository repository;
     RecyclerView recyclerView;
     FloatingActionButton addButton;
-    CustomAdapter customAdapter;
+    DreamAdapter dreamAdapter;
     ImageView emptyImageView;
     TextView emptyTextView;
 
@@ -70,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        customAdapter = new CustomAdapter(MainActivity.this, MainActivity.this, repository.getDreams());
-        recyclerView.setAdapter(customAdapter);
+        dreamAdapter = new DreamAdapter(MainActivity.this, MainActivity.this, repository.getDreams());
+        recyclerView.setAdapter(dreamAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
     }
 
