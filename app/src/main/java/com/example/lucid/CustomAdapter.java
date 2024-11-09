@@ -38,6 +38,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.dreamIdTextView.setText(String.valueOf(position + 1));
         holder.dreamTitleTextView.setText(String.valueOf(dreams.get(position).getTitle()));
         holder.dreamDescriptionTextView.setText(String.valueOf(dreams.get(position).getDescription()));
+        holder.dreamMoodTextView.setText(String.valueOf(dreams.get(position).getMood()));
         holder.rowLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,7 +60,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView dreamIdTextView, dreamTitleTextView, dreamDescriptionTextView;
+        TextView dreamIdTextView, dreamTitleTextView, dreamDescriptionTextView, dreamMoodTextView;
         ConstraintLayout rowLayout;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -67,6 +68,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             dreamIdTextView = itemView.findViewById(R.id.dreamIdTextView);
             dreamTitleTextView = itemView.findViewById(R.id.dreamTitleTextView);
             dreamDescriptionTextView = itemView.findViewById(R.id.dreamDescriptionTextView);
+            dreamMoodTextView = itemView.findViewById(R.id.moodTextView);
             rowLayout = itemView.findViewById(R.id.recyclerViewRowLayout);
         }
     }
