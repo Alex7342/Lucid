@@ -60,6 +60,7 @@ public class UpdateDeleteActivity extends AppCompatActivity {
                 mood = moodInput.getText().toString().trim();
                 isLucid = isLucidInput.isChecked();
                 repository.updateDream(Integer.parseInt(id), title, description, mood, isLucid);
+                finish();
             }
         });
 
