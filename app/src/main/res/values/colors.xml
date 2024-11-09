@@ -4,4 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="titleColor">#FFF6F6F6</color>
     <color name="descriptionColor">#FFDEDEDE</color>
+    <color name="moodColor">#FFDEDEDE</color>
+    <color name="dateColor">#FFF6F6F6</color>
 </resources>

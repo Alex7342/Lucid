@@ -14,7 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class DreamAdapter extends RecyclerView.Adapter<DreamAdapter.MyViewHolder> {
     private Activity activity;
@@ -53,13 +58,14 @@ public class DreamAdapter extends RecyclerView.Adapter<DreamAdapter.MyViewHolder
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView dreamIdTextView, dreamTitleTextView, dreamDescriptionTextView, dreamMoodTextView;
+        TextView monthTextView, dayTextView, dreamTitleTextView, dreamDescriptionTextView, dreamMoodTextView;
         ImageView dreamIsLucidImageView;
         ConstraintLayout rowLayout;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            dreamIdTextView = itemView.findViewById(R.id.dreamIdTextView);
+            monthTextView = itemView.findViewById(R.id.monthTextView);
+            dayTextView = itemView.findViewById(R.id.dayTextView);
             dreamTitleTextView = itemView.findViewById(R.id.dreamTitleTextView);
             dreamDescriptionTextView = itemView.findViewById(R.id.dreamDescriptionTextView);
             dreamMoodTextView = itemView.findViewById(R.id.moodTextView);
@@ -69,8 +75,13 @@ public class DreamAdapter extends RecyclerView.Adapter<DreamAdapter.MyViewHolder
     }
 
     private void setDreamContent(@NonNull MyViewHolder holder, int position) {
-        // Set the content for the id, title and description TextViews
-        holder.dreamIdTextView.setText(String.valueOf(position + 1));
+        // Set the content for the month and day TextViews
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM", Locale.US);
+        holder.monthTextView.setText(simpleDateFormat.format(dreams.get(position).getDate()));
+        simpleDateFormat = new SimpleDateFormat("d", Locale.US);
+        holder.dayTextView.setText(simpleDateFormat.format(dreams.get(position).getDate()));
+
+        // Set the content for the title and description TextViews
         holder.dreamTitleTextView.setText(String.valueOf(dreams.get(position).getTitle()));
         holder.dreamDescriptionTextView.setText(String.valueOf(dreams.get(position).getDescription()));
 
@@ -84,10 +95,13 @@ public class DreamAdapter extends RecyclerView.Adapter<DreamAdapter.MyViewHolder
         }
 
         // Set the content for the ImageView that describes the state of isLucid
-        if (dreams.get(position).isLucid())
+        if (dreams.get(position).isLucid()) {
             holder.dreamIsLucidImageView.setImageResource(R.drawable.lucid);
-        else
-            holder.dreamIsLucidImageView.setImageResource(R.drawable.not_lucid);
+        }
+        else {
+            //holder.dreamIsLucidImageView.setImageResource(R.drawable.not_lucid);
+            holder.dreamIsLucidImageView.setVisibility(View.GONE);
+        }
     }
 
     private void startUpdateDeleteActivity(int position) {
