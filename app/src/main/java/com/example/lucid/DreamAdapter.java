@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -58,6 +59,7 @@ public class DreamAdapter extends RecyclerView.Adapter<DreamAdapter.MyViewHolder
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
+        CardView moodCardView;
         TextView monthTextView, dayTextView, dreamTitleTextView, dreamDescriptionTextView, dreamMoodTextView;
         ImageView dreamIsLucidImageView;
         ConstraintLayout rowLayout;
@@ -69,6 +71,7 @@ public class DreamAdapter extends RecyclerView.Adapter<DreamAdapter.MyViewHolder
             dreamTitleTextView = itemView.findViewById(R.id.dreamTitleTextView);
             dreamDescriptionTextView = itemView.findViewById(R.id.dreamDescriptionTextView);
             dreamMoodTextView = itemView.findViewById(R.id.moodTextView);
+            moodCardView = itemView.findViewById(R.id.moodCardView);
             dreamIsLucidImageView = itemView.findViewById(R.id.isLucidImageView);
             rowLayout = itemView.findViewById(R.id.recyclerViewRowLayout);
         }
@@ -87,8 +90,7 @@ public class DreamAdapter extends RecyclerView.Adapter<DreamAdapter.MyViewHolder
 
         // Set the content for the mood custom tag or delete it if there is no content
         if (dreams.get(position).getMood().isEmpty()) {
-            View moodCardView = (View) holder.dreamMoodTextView.getParent().getParent();
-            ((ViewGroup) holder.dreamMoodTextView.getParent().getParent().getParent()).removeView(moodCardView);
+            holder.moodCardView.setVisibility(View.GONE);
         }
         else {
             holder.dreamMoodTextView.setText(String.valueOf(dreams.get(position).getMood()));
@@ -97,6 +99,7 @@ public class DreamAdapter extends RecyclerView.Adapter<DreamAdapter.MyViewHolder
         // Set the content for the ImageView that describes the state of isLucid
         if (dreams.get(position).isLucid()) {
             holder.dreamIsLucidImageView.setImageResource(R.drawable.lucid);
+            holder.dreamIsLucidImageView.setVisibility(View.VISIBLE);
         }
         else {
             //holder.dreamIsLucidImageView.setImageResource(R.drawable.not_lucid);
@@ -112,6 +115,6 @@ public class DreamAdapter extends RecyclerView.Adapter<DreamAdapter.MyViewHolder
         intent.putExtra("mood", String.valueOf(dreams.get(position).getMood()));
         intent.putExtra("date", dreams.get(position).getDate());
         intent.putExtra("isLucid", dreams.get(position).isLucid());
-        activity.startActivityForResult(intent, 1);
+        activity.startActivityForResult(intent, 2);
     }
 }

@@ -75,7 +75,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
-            recreate();
+            // TODO Change notifyDataSetChanged to more specific methods
+            dreamAdapter.notifyDataSetChanged();
+            if (dreamAdapter.getItemCount() != 0) {
+                emptyImageView.setVisibility(View.GONE);
+                emptyTextView.setVisibility(View.GONE);
+            }
+        }
+        else if (requestCode == 2) {
+            dreamAdapter.notifyDataSetChanged();
+            if (dreamAdapter.getItemCount() == 0) {
+                emptyImageView.setVisibility(View.VISIBLE);
+                emptyTextView.setVisibility(View.VISIBLE);
+            }
         }
     }
 }

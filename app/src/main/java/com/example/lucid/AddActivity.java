@@ -49,6 +49,7 @@ public class AddActivity extends AppCompatActivity {
 
                 repository.addDream(title, description, mood, new Date(), isLucid);
 
+                setResult(RESULT_OK);
                 finish();
             }
         });

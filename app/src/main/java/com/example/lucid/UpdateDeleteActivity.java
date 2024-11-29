@@ -60,6 +60,9 @@ public class UpdateDeleteActivity extends AppCompatActivity {
                 mood = moodInput.getText().toString().trim();
                 isLucid = isLucidInput.isChecked();
                 repository.updateDream(Integer.parseInt(id), title, description, mood, isLucid);
+
+                // The result is the index of the dream followed by 1
+                setResult(Integer.parseInt(id) * 10 + 1);
                 finish();
             }
         });
@@ -78,7 +81,7 @@ public class UpdateDeleteActivity extends AppCompatActivity {
             id = getIntent().getStringExtra("id");
         }
         else {
-            Toast.makeText(this, "Unable to update the dream (no valid id)!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Unable to find the dream (no valid id)!", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -119,6 +122,9 @@ public class UpdateDeleteActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 Repository repository = new Repository(UpdateDeleteActivity.this);
                 repository.deleteDream(Integer.parseInt(id));
+
+                // The result is the id of the dream followed by 2
+                setResult(RESULT_OK);
                 finish();
             }
         });
