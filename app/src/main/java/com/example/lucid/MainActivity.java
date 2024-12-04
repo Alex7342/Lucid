@@ -74,16 +74,30 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        // AddActivity
         if (requestCode == 1) {
-            // TODO Change notifyDataSetChanged to more specific methods
-            dreamAdapter.notifyDataSetChanged();
+            // Notify the adapter that an element has been inserted
+            if (data != null && data.hasExtra("indexAdded"))
+                dreamAdapter.notifyItemInserted(data.getIntExtra("indexAdded", 0));
+
+            // If there are any elements set the "No data" elements visibility to GONE
             if (dreamAdapter.getItemCount() != 0) {
                 emptyImageView.setVisibility(View.GONE);
                 emptyTextView.setVisibility(View.GONE);
             }
         }
+        // UpdateDeleteActivity
         else if (requestCode == 2) {
-            dreamAdapter.notifyDataSetChanged();
+            // Notify the adapter that an element has been updated
+            if (data != null && data.hasExtra("indexUpdated"))
+                dreamAdapter.notifyItemChanged(data.getIntExtra("indexUpdated", 0));
+
+            // Notify the adapter that an element has been deleted
+            if (data != null && data.hasExtra("indexDeleted"))
+                dreamAdapter.notifyItemRemoved(data.getIntExtra("indexDeleted", 0));
+
+            // If there are no elements set the "No data" elements visibility to VISIBLE
             if (dreamAdapter.getItemCount() == 0) {
                 emptyImageView.setVisibility(View.VISIBLE);
                 emptyTextView.setVisibility(View.VISIBLE);

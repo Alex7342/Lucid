@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -61,8 +62,9 @@ public class UpdateDeleteActivity extends AppCompatActivity {
                 isLucid = isLucidInput.isChecked();
                 repository.updateDream(Integer.parseInt(id), title, description, mood, isLucid);
 
-                // The result is the index of the dream followed by 1
-                setResult(Integer.parseInt(id) * 10 + 1);
+                Intent data = new Intent();
+                data.putExtra("indexUpdated", Integer.parseInt(id)); // Index of the updated element
+                setResult(RESULT_OK, data);
                 finish();
             }
         });
@@ -123,8 +125,9 @@ public class UpdateDeleteActivity extends AppCompatActivity {
                 Repository repository = new Repository(UpdateDeleteActivity.this);
                 repository.deleteDream(Integer.parseInt(id));
 
-                // The result is the id of the dream followed by 2
-                setResult(RESULT_OK);
+                Intent data = new Intent();
+                data.putExtra("indexDeleted", Integer.parseInt(id)); // index of the deleted element
+                setResult(RESULT_OK, data);
                 finish();
             }
         });
