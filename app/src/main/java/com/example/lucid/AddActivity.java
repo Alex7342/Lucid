@@ -2,6 +2,7 @@ package com.example.lucid;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -49,6 +50,9 @@ public class AddActivity extends AppCompatActivity {
 
                 repository.addDream(title, description, mood, new Date(), isLucid);
 
+                Intent data = new Intent();
+                data.putExtra("indexAdded", repository.getDreams().size() - 1); // Index of the added element
+                setResult(RESULT_OK, data);
                 finish();
             }
         });

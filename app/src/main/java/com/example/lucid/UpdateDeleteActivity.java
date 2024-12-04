@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -60,6 +61,10 @@ public class UpdateDeleteActivity extends AppCompatActivity {
                 mood = moodInput.getText().toString().trim();
                 isLucid = isLucidInput.isChecked();
                 repository.updateDream(Integer.parseInt(id), title, description, mood, isLucid);
+
+                Intent data = new Intent();
+                data.putExtra("indexUpdated", Integer.parseInt(id)); // Index of the updated element
+                setResult(RESULT_OK, data);
                 finish();
             }
         });
@@ -78,7 +83,7 @@ public class UpdateDeleteActivity extends AppCompatActivity {
             id = getIntent().getStringExtra("id");
         }
         else {
-            Toast.makeText(this, "Unable to update the dream (no valid id)!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Unable to find the dream (no valid id)!", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -119,6 +124,10 @@ public class UpdateDeleteActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 Repository repository = new Repository(UpdateDeleteActivity.this);
                 repository.deleteDream(Integer.parseInt(id));
+
+                Intent data = new Intent();
+                data.putExtra("indexDeleted", Integer.parseInt(id)); // index of the deleted element
+                setResult(RESULT_OK, data);
                 finish();
             }
         });
