@@ -9,9 +9,11 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import com.example.lucid.database.local.DreamDatabaseHelper;
 import com.google.android.material.materialswitch.MaterialSwitch;
 
 import java.util.Date;
+
 
 public class AddActivity extends AppCompatActivity {
     EditText titleInput;
@@ -41,17 +43,16 @@ public class AddActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Repository repository = new Repository(AddActivity.this);
-
                 String title = titleInput.getText().toString().trim();
                 String description = descriptionInput.getText().toString().trim();
                 String mood = moodInput.getText().toString().trim();
                 boolean isLucid = isLucidInput.isChecked();
 
-                repository.addDream(title, description, mood, new Date(), isLucid);
+                DreamDatabaseHelper databaseHelper = new DreamDatabaseHelper(AddActivity.this);
+                databaseHelper.addDream(title, description, mood, new Date(), isLucid);
 
                 Intent data = new Intent();
-                data.putExtra("indexAdded", repository.getDreams().size() - 1); // Index of the added element
+                //data.putExtra("indexAdded", repository.getDreams().size() - 1); // Index of the added element
                 setResult(RESULT_OK, data);
                 finish();
             }
