@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Dream {
+    private int id;
     private String title;
     private String description;
     private String mood;
@@ -16,6 +17,19 @@ public class Dream {
         this.date = date;
         this.isLucid = isLucid;
         this.mood = mood;
+    }
+
+    public Dream(int id, String title, String description, String mood, Date date, boolean isLucid) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.date = date;
+        this.isLucid = isLucid;
+        this.mood = mood;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getTitle() {

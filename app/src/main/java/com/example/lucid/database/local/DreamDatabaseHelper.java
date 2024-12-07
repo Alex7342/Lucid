@@ -2,13 +2,18 @@ package com.example.lucid.database.local;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.example.lucid.Dream;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class DreamDatabaseHelper extends SQLiteOpenHelper {
     private final Context context;
@@ -36,8 +41,8 @@ public class DreamDatabaseHelper extends SQLiteOpenHelper {
                        COLUMN_TITLE + " TEXT, " +
                        COLUMN_DESCRIPTION + " TEXT, " +
                        COLUMN_MOOD + " TEXT, " +
-                       COLUMN_DATE + " TEXT, " +
-                       COLUMN_IS_LUCID + " INTEGER" + ")";
+                       COLUMN_DATE + " INTEGER, " + // The date is stored as java.util.Date.getTime()
+                       COLUMN_IS_LUCID + " INTEGER" + ")"; // isLucid is stored as 0 or 1
         db.execSQL(query);
     }
 
@@ -47,6 +52,33 @@ public class DreamDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public List<Dream> getDreams() {
+        String query = "SELECT * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+
+        if (db == null)
+            return new ArrayList<>();
+
+        Cursor cursor = db.rawQuery(query, null);
+        List<Dream> list = new ArrayList<>();
+
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                Dream dream = new Dream(cursor.getInt(0),
+                                        cursor.getString(1),
+                                        cursor.getString(2),
+                                        cursor.getString(3),
+                                        new Date(cursor.getInt(4)),
+                                 cursor.getInt(5) == 1);
+                list.add(dream);
+            }
+            cursor.close();
+        }
+
+        return list;
+    }
+
     public void addDream(String title, String description, String mood, Date date, boolean isLucid) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -54,7 +86,7 @@ public class DreamDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_TITLE, title);
         contentValues.put(COLUMN_DESCRIPTION, description);
         contentValues.put(COLUMN_MOOD, mood);
-        contentValues.put(COLUMN_DATE, date.toString());
+        contentValues.put(COLUMN_DATE, date.getTime());
         contentValues.put(COLUMN_IS_LUCID, isLucid);
 
         long result = db.insert(TABLE_NAME, null, contentValues);

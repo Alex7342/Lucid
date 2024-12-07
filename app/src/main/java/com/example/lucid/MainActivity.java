@@ -8,16 +8,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.lucid.database.local.DreamDatabaseHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
-    Repository repository;
+    DreamDatabaseHelper databaseHelper;
     RecyclerView recyclerView;
     FloatingActionButton addButton;
     DreamAdapter dreamAdapter;
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        repository = new Repository(MainActivity.this);
+        databaseHelper = new DreamDatabaseHelper(MainActivity.this);
 
         recyclerView = findViewById(R.id.recyclerView);
         setRecyclerViewDivider();
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         emptyImageView = findViewById(R.id.emptyImageView);
         emptyTextView = findViewById(R.id.emptyTextView);
 
-        if (repository.getDreams().isEmpty()) {
+        if (databaseHelper.getDreams().isEmpty()) {
             emptyImageView.setVisibility(View.VISIBLE);
             emptyTextView.setVisibility(View.VISIBLE);
         }
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        dreamAdapter = new DreamAdapter(MainActivity.this, MainActivity.this, repository.getDreams());
+        dreamAdapter = new DreamAdapter(MainActivity.this, MainActivity.this, databaseHelper.getDreams());
         recyclerView.setAdapter(dreamAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
     }
