@@ -49,10 +49,11 @@ public class AddActivity extends AppCompatActivity {
                 boolean isLucid = isLucidInput.isChecked();
 
                 DreamDatabaseHelper databaseHelper = new DreamDatabaseHelper(AddActivity.this);
-                databaseHelper.addDream(title, description, mood, new Date(), isLucid);
+                long index = databaseHelper.addDream(title, description, mood, new Date(), isLucid) - 1;
+                databaseHelper.close();
 
                 Intent data = new Intent();
-                //data.putExtra("indexAdded", repository.getDreams().size() - 1); // Index of the added element
+                data.putExtra("indexAdded", (int) index); // Index of the added element
                 setResult(RESULT_OK, data);
                 finish();
             }

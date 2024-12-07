@@ -3,7 +3,6 @@ package com.example.lucid;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +14,11 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.DateFormat;
+import com.example.lucid.database.local.DreamDatabaseHelper;
+
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
 
 public class DreamAdapter extends RecyclerView.Adapter<DreamAdapter.MyViewHolder> {
     private Activity activity;
@@ -109,12 +107,19 @@ public class DreamAdapter extends RecyclerView.Adapter<DreamAdapter.MyViewHolder
 
     private void startUpdateDeleteActivity(int position) {
         Intent intent = new Intent(context, UpdateDeleteActivity.class);
-        intent.putExtra("id", String.valueOf(position));
+        intent.putExtra("position", position);
+        intent.putExtra("id", dreams.get(position).getId());
         intent.putExtra("title", String.valueOf(dreams.get(position).getTitle()));
         intent.putExtra("description", String.valueOf(dreams.get(position).getDescription()));
         intent.putExtra("mood", String.valueOf(dreams.get(position).getMood()));
         intent.putExtra("date", dreams.get(position).getDate());
         intent.putExtra("isLucid", dreams.get(position).isLucid());
         activity.startActivityForResult(intent, 2);
+    }
+
+    public void fetchDataFromDatabase() {
+        DreamDatabaseHelper databaseHelper = new DreamDatabaseHelper(context);
+        dreams = databaseHelper.getDreams();
+        databaseHelper.close();
     }
 }

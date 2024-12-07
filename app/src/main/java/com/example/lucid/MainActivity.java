@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.lucid.database.local.DreamDatabaseHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 
 public class MainActivity extends AppCompatActivity {
     DreamDatabaseHelper databaseHelper;
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         emptyImageView = findViewById(R.id.emptyImageView);
         emptyTextView = findViewById(R.id.emptyTextView);
 
-        if (databaseHelper.getDreams().isEmpty()) {
+        if (databaseHelper.getDreamCount() == 0) {
             emptyImageView.setVisibility(View.VISIBLE);
             emptyTextView.setVisibility(View.VISIBLE);
         }
@@ -79,6 +79,10 @@ public class MainActivity extends AppCompatActivity {
 
         // AddActivity
         if (requestCode == 1) {
+            recreate();
+            /*// Update the dream list in the adapter
+            dreamAdapter.fetchDataFromDatabase();
+
             // Notify the adapter that an element has been inserted
             if (data != null && data.hasExtra("indexAdded"))
                 dreamAdapter.notifyItemInserted(data.getIntExtra("indexAdded", 0));
@@ -87,10 +91,14 @@ public class MainActivity extends AppCompatActivity {
             if (dreamAdapter.getItemCount() != 0) {
                 emptyImageView.setVisibility(View.GONE);
                 emptyTextView.setVisibility(View.GONE);
-            }
+            }*/
         }
         // UpdateDeleteActivity
         else if (requestCode == 2) {
+            recreate();
+            /*// Update the dream list in the adapter
+            dreamAdapter.fetchDataFromDatabase();
+
             // Notify the adapter that an element has been updated
             if (data != null && data.hasExtra("indexUpdated"))
                 dreamAdapter.notifyItemChanged(data.getIntExtra("indexUpdated", 0));
@@ -103,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             if (dreamAdapter.getItemCount() == 0) {
                 emptyImageView.setVisibility(View.VISIBLE);
                 emptyTextView.setVisibility(View.VISIBLE);
-            }
+            }*/
         }
     }
 }

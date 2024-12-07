@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.lucid.database.local.DreamDatabaseHelper;
 import com.google.android.material.materialswitch.MaterialSwitch;
 
 import java.util.Date;
@@ -21,7 +22,8 @@ public class UpdateDeleteActivity extends AppCompatActivity {
     EditText titleInput, descriptionInput, moodInput;
     MaterialSwitch isLucidInput;
     Button updateButton, deleteButton;
-    String id, title, description, mood;
+    int position, id;
+    String title, description, mood;
     Date date;
     boolean isLucid;
 
@@ -55,15 +57,17 @@ public class UpdateDeleteActivity extends AppCompatActivity {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Repository repository = new Repository(UpdateDeleteActivity.this);
                 title = titleInput.getText().toString().trim();
                 description = descriptionInput.getText().toString().trim();
                 mood = moodInput.getText().toString().trim();
                 isLucid = isLucidInput.isChecked();
-                repository.updateDream(Integer.parseInt(id), title, description, mood, isLucid);
+
+                DreamDatabaseHelper databaseHelper = new DreamDatabaseHelper(UpdateDeleteActivity.this);
+                databaseHelper.updateDream(id, title, description, mood, isLucid);
+                databaseHelper.close();
 
                 Intent data = new Intent();
-                data.putExtra("indexUpdated", Integer.parseInt(id)); // Index of the updated element
+                data.putExtra("indexUpdated", position); // Index of the updated element
                 setResult(RESULT_OK, data);
                 finish();
             }
@@ -79,8 +83,16 @@ public class UpdateDeleteActivity extends AppCompatActivity {
 
     private void getAndSetIntentData() {
         // Getting data from intent
+        if (getIntent().hasExtra("position")) {
+            position = getIntent().getIntExtra("position", 0);
+        }
+        else {
+            Toast.makeText(this, "Unable to find the dream (no valid position in the list)!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (getIntent().hasExtra("id")) {
-            id = getIntent().getStringExtra("id");
+            id = getIntent().getIntExtra("id", 0);
         }
         else {
             Toast.makeText(this, "Unable to find the dream (no valid id)!", Toast.LENGTH_SHORT).show();
@@ -122,11 +134,12 @@ public class UpdateDeleteActivity extends AppCompatActivity {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Repository repository = new Repository(UpdateDeleteActivity.this);
-                repository.deleteDream(Integer.parseInt(id));
+                DreamDatabaseHelper databaseHelper = new DreamDatabaseHelper(UpdateDeleteActivity.this);
+                databaseHelper.deleteDream(id);
+                databaseHelper.close();
 
                 Intent data = new Intent();
-                data.putExtra("indexDeleted", Integer.parseInt(id)); // index of the deleted element
+                data.putExtra("indexDeleted", position); // index of the deleted element
                 setResult(RESULT_OK, data);
                 finish();
             }

@@ -52,10 +52,23 @@ public class DreamDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public int getDreamCount() {
+        String query = "SELECT COUNT(*) FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        int result = 0;
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToNext()) {
+            result = cursor.getInt(0);
+        }
+        cursor.close();
+
+        return result;
+    }
+
     public List<Dream> getDreams() {
         String query = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
-
 
         if (db == null)
             return new ArrayList<>();
@@ -79,7 +92,7 @@ public class DreamDatabaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public void addDream(String title, String description, String mood, Date date, boolean isLucid) {
+    public long addDream(String title, String description, String mood, Date date, boolean isLucid) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -94,6 +107,8 @@ public class DreamDatabaseHelper extends SQLiteOpenHelper {
             Toast.makeText(context, "Failed to add the dream!", Toast.LENGTH_SHORT).show();
         else
             Toast.makeText(context, "Dream added successfully!", Toast.LENGTH_SHORT).show();
+
+        return result;
     }
 
     public void updateDream(int id, String newTitle, String newDescription, String newMood, boolean newIsLucid) {
@@ -105,6 +120,23 @@ public class DreamDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_MOOD, newMood);
         contentValues.put(COLUMN_IS_LUCID, newIsLucid);
 
-        db.update(TABLE_NAME, contentValues, "WHERE " + COLUMN_ID + " == " + String.valueOf(id), new String[1]);
+        long result = db.update(TABLE_NAME, contentValues, COLUMN_ID + "=?", new String[] {String.valueOf(id)});
+        if (result == 0) {
+            Toast.makeText(context, "Could not update the dream!", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(context, "Dream updated successfully!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void deleteDream(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.delete(TABLE_NAME, COLUMN_ID + "=?", new String[] {String.valueOf(id)});
+        if (result == 0) {
+            Toast.makeText(context, "Failed to delete the dream!", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(context, "Dream deleted successfully!", Toast.LENGTH_SHORT).show();
+        }
     }
 }
